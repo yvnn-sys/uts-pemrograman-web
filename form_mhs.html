@@ -1,0 +1,26 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Form Nilai Mahasiswa</title>
+</head>
+<body>
+
+<h2>Form Nilai Mahasiswa</h2>
+
+<form action="proses_mhs.php" method="post">
+    <label>NIM:</label><br>
+    <input type="text" name="nim" required><br><br>
+    <label>Nama Mahasiswa:</label><br>
+    <input type="text" name="nama_lengkap" required><br><br>
+    <label>Nilai Akhir:</label><br>
+    <input type="number" name="nilai_akhir" min="0" max="100" step="0.01" required><br><br>
+    <input type="submit" value="Simpan">
+    <input type="reset" value="Reset">
+</form>
+
+<br>
+<a href="bacanilaimhs.php">Kembali ke Data Nilai</a>
+
+</body>
+</html>
