@@ -293,9 +293,16 @@ $sampai = $total > 0 ? $offset + $jumlah : 0;
                             <td><?php echo htmlspecialchars($data['preg_date']); ?></td>
                             <td class="text-center pe-4">
                               <div class="btn-group" role="group" aria-label="Aksi data">
-                                <a href="edit_mhs.php?nim=<?php echo urlencode($data['nim']); ?>" class="btn btn-outline-secondary" title="Edit">
-                                  <i class="bi bi-pencil"></i>
-                                </a>
+                                <button type="button" class ="btn btn-outline-secondary tombol-edit"
+                                    title="edit"
+                                    data-nim="<?php echo e($data['nim']);?>"
+                                    data-nama="<?php echo e($data['nama_mhs']);?>"
+                                    data-nilai="<?php echo e($data['nilai_akhir']);?>"
+                                    data-foto="<?php echo e($data['foto']);?>"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalEdit">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
                                 <button type="button" class="btn btn-outline-danger tombol-hapus" title="Hapus" data-nim="<?php echo e($data['nim']); ?>" data-nama="<?php echo e($data['nama_mhs']); ?>" data-bs-toggle="modal" data-bs-target="#modalHapus">
                                   <i class="bi bi-trash"></i>
                                 </button>
@@ -390,13 +397,75 @@ $sampai = $total > 0 ? $offset + $jumlah : 0;
     </div>
   </div>
 
+  <!-- Modal edit data nilai -->
+  <div class="modal fade" id="modalEdit" tabindex="-1" aria-labelledby="judulModalEdit" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <form action="updatemhs.php" method="post" enctype="multipart/form-data">
+          <div class="modal-header">
+            <h5 class="modal-title" id="judulModalEdit">Edit Data Nilai</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+          </div>
+
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="edit_nim" class="form-label">NIM</label>
+              <input type="text" class="form-control" id="edit_nim" name="nim" readonly>
+            </div>
+
+            <div class="mb-3">
+              <label for="edit_nama" class="form-label">Nama Mahasiswa</label>
+              <input type="text" class="form-control" id="edit_nama"
+                name="nama_lengkap" pattern="[A-Za-z ]+"
+                title="Nama hanya boleh berisi huruf dan spasi" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="edit_foto" class="form-label">Foto Mahasiswa</label>
+              <input type="file" class="form-control" id="edit_foto"
+                name="foto" accept="image/jpeg, image/png, image/gif">
+              <small class="text-body-secondary">Kosongkan jika tidak ingin mengganti foto.</small>
+              <input type="hidden" name="foto_lama" id="edit_foto_lama">
+            </div>
+
+            <div class="mb-3">
+              <label for="edit_nilai" class="form-label">Nilai Akhir</label>
+              <input type="number" class="form-control" id="edit_nilai"
+                name="nilai_akhir" min="0" max="100" step="0.01" required>
+            </div>
+
+            <small class="text-body-secondary">
+              Nilai huruf dan predikat ditentukan otomatis saat data diperbarui.
+            </small>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+            <button type="submit" class="btn btn-primary">Update</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <script>
+    //mengatur tombol hapus
     document.querySelectorAll('.tombol-hapus').forEach(function (tombol) {
       tombol.addEventListener('click', function () {
         document.getElementById('nimHapus').value = this.dataset.nim;
         document.getElementById('namaMahasiswaHapus').textContent = this.dataset.nama;
       });
     });
+
+    //mengatur tombol edit
+    document.querySelectorAll('.tombol-edit').forEach(function (tombol) {
+    tombol.addEventListener('click', function () {
+      document.getElementById('edit_nim').value = this.dataset.nim;
+      document.getElementById('edit_nama').value = this.dataset.nama;
+      document.getElementById('edit_nilai').value = this.dataset.nilai;
+      document.getElementById('edit_foto_lama').value = this.dataset.foto;
+    });
+  });
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
